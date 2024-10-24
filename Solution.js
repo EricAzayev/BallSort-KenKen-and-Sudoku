@@ -1,4 +1,5 @@
 class Solution {
+    constructor(){}
     generateNNArray(n) {
         let toReturn = Array.from({ length: n }, () => Array(n).fill(0)); //new nn array filled with 0s
         
@@ -52,7 +53,5 @@ class Solution {
     }
 }
 
-/*const solution = new Solution();
-console.log(solution.generateNNArray(6));*/
 
 export default Solution;
