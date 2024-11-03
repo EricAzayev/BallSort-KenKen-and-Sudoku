@@ -51,7 +51,22 @@ class Solution {
         
         return true;
     }
+
+    partitionArray(size){ 
+        //generate numbers between 1 and size
+
+        let toReturn = Array.from({ length: size }, () => Array(size).fill(0));
+
+    }
+    
+    deremineSum(targ, gameArray){ //if 7, adds the nums assigned location 7 
+
+    }
+
+
 }
+
+
 
 
 export default Solution;
