@@ -65,9 +65,8 @@ class Solution {
             let sec = Math.floor(Math.random() * size) + 1;
             while(onlyUniques.has(sec))sec = Math.floor(Math.random() * size) + 1; //ensure sec is a UNIQUE random number
             let problemSize = Math.floor(Math.random() * 2) + 2; //2 - 4 //Temp equation to determine pSs, TO BE CHANGED!!!
-            let mark = Math.floor(Math.random() * size) + 1; //decides the color and problem-branch
 
-            toReturn = randomBranching(i, j, problemSize, mark, toReturn);
+            toReturn = randomBranching(i, j, problemSize, sec, toReturn);
 
         }
         return toReturn;

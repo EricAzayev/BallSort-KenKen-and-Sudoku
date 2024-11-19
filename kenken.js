@@ -35,6 +35,8 @@ gridElements.forEach(function(element) {
     element.style.gridTemplateColumns = columns; // Ensures 4 columns for a 4x4 grid
 });
 
+console.log(solution.partitionArray(size));
+
 for(let i = 0; i < size; i++){
     const a = document.createElement("div");
     a.className = "KenContainer" 
