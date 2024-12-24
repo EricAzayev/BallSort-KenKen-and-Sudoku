@@ -1,7 +1,7 @@
 .KenContainer{
     display: grid;
     margin: auto;
-    grid-template-columns: 1fr 1fr 1fr 1fr; 
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
     width: 40%;
     height: 100%;
     
