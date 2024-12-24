@@ -57,7 +57,7 @@ class Solution {
 
 
     //purpose of function: to create snakes
-    partitionArray(size){ //size synonymous with n: dimension of the array
+    partitionArray(size){ //shows how the problems are separated (likely by color) //size synonymous with n: dimension of the array
         
         let toReturn = Array.from({ length: size }, () => Array(size).fill(0)); //fill array toReturn with 0s.
         //const onlyUniques = new Set([]); //generate empty set
@@ -77,7 +77,7 @@ class Solution {
             //Temp equation to determine length of individual paths. 
             let problemSize = Math.floor(Math.random() * 2) + 2; //temporarily set for range [2,4]
 
-            toReturn = randomBranching(i, j, problemSize, pathLabel, toReturn);
+            toReturn = this.randomBranching(i, j, problemSize, pathLabel, toReturn);
 
         }
         return toReturn;
@@ -89,10 +89,10 @@ class Solution {
         arr[i][j] = mark; //mark must > 0, it sets the partition. 
         
         //1 is up //2 is down  //3 is left  //4 is right
-        canGoUp = i > 0 && arr[i-1][j] == 0;
-        canGoDown = i < arr.length - 1 && arr[i+1][j] == 0;
-        canGoLeft = j > 0 && arr[i][j-1] == 0;
-        canGoRight = j < arr.length - 1 && arr[i][j+1] == 0;
+        let canGoUp = i > 0 && arr[i-1][j] == 0;
+        let canGoDown = i < arr.length - 1 && arr[i+1][j] == 0;
+        let canGoLeft = j > 0 && arr[i][j-1] == 0;
+        let canGoRight = j < arr.length - 1 && arr[i][j+1] == 0;
         
         
         const validDirections = [];
@@ -106,17 +106,16 @@ class Solution {
         const moveThere = validDirections[Math.floor(Math.random() * validDirections.length)]; //selects code for valid direction
         switch(moveThere){
             case 1:
-                this.randomBranching(i-1, j, amt-1, mark, arr);
-                break;
+                return this.randomBranching(i-1, j, amt-1, mark, arr);
+                //break;
             case 2:
-                this.randomBranching(i+1, j, amt-1, mark, arr);
-                break;
+                return this.randomBranching(i+1, j, amt-1, mark, arr);
             case 3:
-                this.randomBranching(i, j-1, amt-1, mark, arr);
-                break;
+                return this.randomBranching(i, j-1, amt-1, mark, arr);
+                
             case 4:
-                this.randomBranching(i, j+1, amt-1, mark, arr);
-                break;
+                return this.randomBranching(i, j+1, amt-1, mark, arr);
+                
         }
     }
 
@@ -124,25 +123,33 @@ class Solution {
     hasZeros(wholeArray) {
         for(let i = 0; i < wholeArray.length; i++){
             for (let j = 0; j < wholeArray[i].length; j++) {
-                if (wholeArray[i][j] === 0) return false;
+                if (wholeArray[i][j] === 0) return true;
             }
         }
-        return true;
+        return false;
     }
 
     //!!!! end of createTunnelArray line of commands !!!!! (Step 2)
+
+    asIs(num, i, j){
+        return [num.toString(), i, j];
+    }
     
     determineSum(pathLabel, partitionArray, gameArray){ //if 7, adds the nums assigned location 7 
         let sum = 0;
         let x;
         let y;
         let first = true;
+        
         for(let i = 0; i < gameArray.length; i++){
             for(let j = 0; j < gameArray[0].length; j++){
                 if(partitionArray[i][j] == pathLabel){
                     if(first){
+                        
                         x = i;
                         y = j;
+                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(pathLabel, i, j);
+                        first = false;
                     }
                     
                     sum += gameArray[i][j];
@@ -155,17 +162,18 @@ class Solution {
     determineDifference(pathLabel, partitionArray, gameArray){ //pathlength must be 2!
         let pathLength = 0;
         let max = 0;
-        let min = 0;
+        let min = 100;
         let x;
         let y;
         let first = true;
         for(let i = 0; i < gameArray.length; i++){
             for(let j = 0; j < gameArray[0].length; j++){
                 if(partitionArray[i][j] == pathLabel){
+                    if(gameArray[i][j] > max)max = gameArray[i][j];
+                    if(gameArray[i][j] < min)min = gameArray[i][j];
                     pathLength++;
                     if(first){
-                        max = gameArray[i][j];
-                        min = gameArray[i][j];
+                        
                         x = i;
                         y = j;
                         first = false;
@@ -174,15 +182,15 @@ class Solution {
                         gameArray[i][j] > max ? max = gameArray[i][j] : min = gameArray[i][j]; 
                     }
                     else if(pathLength > 2){ //in the worst case, return sum. 
-                        return determineSum(pathLabel, partitionArray, gameArray)
+                        return this.determineSum(pathLabel, partitionArray, gameArray)
                     }   
                 }
             }
         }
-        return [(max-min).toString + "-", x,y];
+        return [(max-min).toString() + "-", x,y];
 }
     determineMult(pathLabel, partitionArray, gameArray){ //if 7, adds the nums assigned location 7 
-        let sum = 0;
+        let mult = 1;
         let x;
         let y;
         let first = true;
@@ -192,29 +200,31 @@ class Solution {
                     if(first){
                         x = i;
                         y = j;
+                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(pathLabel, i, j);
+                        first = false;
                     }
                     
-                    sum *= gameArray[i][j];
+                    mult *= gameArray[i][j];
                 }
             }
         }
-        return [sum.toString() + "+", x,y]; //kenken.js unpacks this list to know where to display this problem
+        return [mult.toString() + "+", x,y]; //kenken.js unpacks this list to know where to display this problem
     }
 
     determineDivis(pathLabel, partitionArray, gameArray){
         let pathLength = 0;
         let max = 0;
-        let min = 0;
+        let min = 100;
         let x;
         let y;
         let first = true;
         for(let i = 0; i < gameArray.length; i++){
-            for(let j = 0; j < gameArray[0].length; j++){
+            for(let j = 0; j < gameArray[0].length; j++){                
                 if(partitionArray[i][j] == pathLabel){
+                    if(gameArray[i][j] > max)max = gameArray[i][j];
+                    if(gameArray[i][j] < min)min = gameArray[i][j];
                     pathLength++;
                     if(first){
-                        max = gameArray[i][j];
-                        min = gameArray[i][j];
                         x = i;
                         y = j;
                         first = false;
@@ -223,26 +233,119 @@ class Solution {
                         gameArray[i][j] > max ? max = gameArray[i][j] : min = gameArray[i][j]; 
                     }
                     else if(pathLength > 2){ //in the worst case, return sum. 
-                        return determineSum(pathLabel, partitionArray, gameArray)
+                        return this.determineSum(pathLabel, partitionArray, gameArray)
                     }   
                 }
             }
         }
-        return [(max / min).toString + "-", x,y];
+        if(max % min == 0)return [(max / min).toString() + "/", x,y];
+        return this.determineDifference(pathLabel, partitionArray, gameArray);
+    }
+    
+    //returns the array to be displayed to the player, with all available problems. 
+    establishProblems(tunneledArray, gameArray){  //tunneledArray = partitionedArray , gameArray is the answer array
+        let completed = new Set(); //completed markers placed here. 
+        let toReturn = Array.from({ length: tunneledArray.length }, () => Array(tunneledArray[0].length).fill(""));
+
+        //identify individual markers
+        for(let i = 0; i < tunneledArray.length;i++){
+            for(let j = 0; j < tunneledArray[0].length; j++){
+                let mark = tunneledArray[i][j];
+                let toUnpack;
+                if(!completed.has(mark)){
+                    //randomly run a problem-function on a marker
+                    let lengthP = this.problemLength(tunneledArray, mark);
+                    
+                    if(lengthP == 2){ //must create odds for substract, add, multiply, and divide
+                        //odds are 6,2,1,1
+
+                        let chance = Math.floor(Math.random() * 10); //0 - 9
+                        if(chance < 5){ //subtract
+                            toUnpack = this.determineDivis(mark, tunneledArray, gameArray);
+                            toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+                        }
+                        else if(chance > 4 && chance < 8){ //divide
+                            toUnpack = this.determineDifference(mark, tunneledArray, gameArray);
+                            toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+                        }
+                        else if(chance == 8){ //multiply
+                            toUnpack = this.determineMult(mark, tunneledArray, gameArray);
+                            toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+
+                        }
+                        else{ //add //chance == 9
+                            toUnpack = this.determineSum(mark, tunneledArray, gameArray);
+                            toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+                        }
+                    }
+                    else{ //length > 2
+                        switch(Math.floor(Math.random() * 2)){//0 - 1)
+                            case 0:
+                                toUnpack = this.determineMult(mark, tunneledArray, gameArray);
+                                toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+                                break;
+                            case 1:
+                                toUnpack = this.determineSum(mark, tunneledArray, gameArray);
+                                toReturn[toUnpack[1]][toUnpack[2]] = toUnpack[0];
+                        }
+                                
+                    }
+
+
+                }
+                completed.add(mark);
+            }
+        }
+        return toReturn;
+    }
+        
+    
+    //helper function for establishProblems - used to determine w
+    problemLength(wholeArray,mark){
+        let sum = 0
+        for(let i = 0; i < wholeArray.length; i++){
+            for (let j = 0; j < wholeArray[i].length; j++) {
+                if (wholeArray[i][j] === mark) sum++;
+            }
+        }
+        return sum;
+    }
+    //!!!! end of createProblemArray line of commands !!!!! (Step 3)
+
+
+    packGame(n){ //n is the size. 
+        
+        let answerKey = this.generateNNArray(n);
+        //console.log(answerKey);
+        let partitionedArray = this.partitionArray(n);
+        //console.log(partitionedArray);
+        let problemView = this.establishProblems(partitionedArray, answerKey);
+        //console.log(problemView);
+
+        return [answerKey, partitionedArray, problemView];
     }
 
+    getGridColor(problemNum,n) {
+        
+        const range = (n*n) / 4;
+
+        let redScale = 255 / range;
+        let greenScale = 255 / range;
+        let blueScale = 255 / range;
+        if(problemNum % 2 == 0)greenScale /= 2;
+        else if(problemNum % 3 == 0)redScale /= 2
+        else{
+            blueScale /= 2;
+        }
+
+        //map problemNum to a color using RGB values
+        const red = Math.min(255, Math.floor(redScale * problemNum));
+        const green = Math.min(255, Math.floor(greenScale * problemNum));
+        const blue = Math.min(255, Math.floor(blueScale * problemNum));
     
-
-
-
-
-
-    //!!!! end of createProblemArray line of commands !!!!! (Step 2)
-    
-    
-
-
-
+        // Return the color as an RGB string
+        return `rgb(${red}, ${green}, ${blue})`;
+    }
 }
 
 
