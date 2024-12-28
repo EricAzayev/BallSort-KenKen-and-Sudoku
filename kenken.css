@@ -1,19 +1,57 @@
-.KenContainer{
-    display: grid;
+#siteTitle{
+    display: flex;
+    justify-content: center;
+
+}
+
+#mainContainer{ /* The N by N grid is placed into this HTML element*/
+    display: flex;
+
+}
+
+#userPannel{
+    /*position: fixed;*/
+    max-height: 1000px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+    margin-top: 0px;
+    
+
+    background: linear-gradient(135deg, #3a3a3a, #1d1d1d);
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    z-index: 700px;
+}
+
+button{font-family:Arial,sans-serif;font-size:1rem;padding:10px 20px;margin:10px;border:none;border-radius:10px;cursor:pointer;transition:all .3s ease-in-out;color:white;box-shadow:0 4px 6px rgba(0,0,0,.2)}button:hover{transform:scale(1.1);box-shadow:0 8px 12px rgba(0,0,0,.3)}
+#newGame{background:linear-gradient(45deg,#74b9ff,#a29bfe)}#Check{background:linear-gradient(45deg,#00cec9,#6c5ce7)}#colorCode{background:linear-gradient(45deg,#fab1a0,#fdcb6e)}#save{background:linear-gradient(45deg,#55efc4,#00b894)}#genSolution{background:linear-gradient(45deg,#ff7675,#d63031)}
+
+.KenKenContainer{
+    max-height: 100px;
     margin: auto;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr; 
+
+}
+.KenContainer{ /* */
+    
+    display: grid;
+    margin-right: auto;
+    
     width: 40%;
-    height: 100%;
-    
-    
-    position
+    height: 100px;
 }
 
 .nestContainer{
     border: 2px solid black; 
-    display: block;
+    display: flex;
+    justify-content: space-evenly;
+    
 }
 
-.KenKenContainer{
-
+.userInput{
+    
 }
+
+

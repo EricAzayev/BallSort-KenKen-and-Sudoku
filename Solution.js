@@ -245,7 +245,7 @@ class Solution {
     //returns the array to be displayed to the player, with all available problems. 
     establishProblems(tunneledArray, gameArray){  //tunneledArray = partitionedArray , gameArray is the answer array
         let completed = new Set(); //completed markers placed here. 
-        let toReturn = Array.from({ length: tunneledArray.length }, () => Array(tunneledArray[0].length).fill(""));
+        let toReturn = Array.from({ length: tunneledArray.length }, () => Array(tunneledArray[0].length).fill("'"));
 
         //identify individual markers
         for(let i = 0; i < tunneledArray.length;i++){
