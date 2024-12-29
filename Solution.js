@@ -148,7 +148,7 @@ class Solution {
                         
                         x = i;
                         y = j;
-                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(pathLabel, i, j);
+                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(gameArray[i][j], i, j);
                         first = false;
                     }
                     
@@ -200,7 +200,7 @@ class Solution {
                     if(first){
                         x = i;
                         y = j;
-                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(pathLabel, i, j);
+                        if(this.problemLength(partitionArray, pathLabel) == 1)return this.asIs(gameArray[i][j], i, j);
                         first = false;
                     }
                     
@@ -208,7 +208,7 @@ class Solution {
                 }
             }
         }
-        return [mult.toString() + "+", x,y]; //kenken.js unpacks this list to know where to display this problem
+        return [mult.toString() + "*", x,y]; //kenken.js unpacks this list to know where to display this problem
     }
 
     determineDivis(pathLabel, partitionArray, gameArray){
@@ -324,6 +324,7 @@ class Solution {
 
         return [answerKey, partitionedArray, problemView];
     }
+
 
     getGridColor(problemNum,n) {
         
