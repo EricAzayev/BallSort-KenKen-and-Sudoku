@@ -238,7 +238,7 @@ class Solution {
                 }
             }
         }
-        if(max % min == 0)return [(max / min).toString() + "/", x,y];
+        if(max % min === 0)return [(max / min).toString() + "/", x,y];
         return this.determineDifference(pathLabel, partitionArray, gameArray);
     }
     

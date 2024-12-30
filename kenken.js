@@ -4,32 +4,13 @@ function getQueryParam(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
 }
-function decompiler(abstractedString) {
-    const [first, answerKeyStr, tunneledArrayStr, problemViewStr, playerAnswersStr] = abstractedString.split("|");
-    const [, size, hardness] = first.split(".");
-    const answerKey = answerKeyStr.split(",").map(Number);
-    const tunneledArray = tunneledArrayStr.split(",").map(Number);
-    const userProblemView = problemViewStr.split(",");
-    const playerAnswers = playerAnswersStr.split(",").map(Number);
-    return {
-      size,
-      hardness,
-      answerKey,
-      tunneledArray,
-      userProblemView,
-      playerAnswers,
-    };
-}
 
-const decompiling = getQueryParam('decompiling');
-let n = parseInt(getQueryParam('size')); 
-let d = getQueryParam('difficulty');
-if(decompiling){
 
-}
 
-const size = n;
-const difficulty = d;
+
+
+let size = parseInt(getQueryParam('size'));
+let difficulty = getQueryParam('difficulty');
 
 
 document.getElementById('siteTitle').textContent = "Your " + difficulty + " " + size.toString() + " x " + size.toString() + " grid";
@@ -108,7 +89,7 @@ function generateProblem(){
             inputDiv.appendChild(userInput);
 
             nestDiv.appendChild(textDiv);
-            nestDiv.appendChild(document.createElement('div'));
+            //nestDiv.appendChild(document.createElement('div'));
             nestDiv.appendChild(inputDiv);
             a.appendChild(nestDiv);        
         }
@@ -129,10 +110,96 @@ function collectPlayerAnswers(){
         }
     }
 }
+
+
+function decompileGame(abstractedString) {
+    const [first, answerKeyStr, tunneledArrayStr, problemViewStr, playerAnswersStr] = abstractedString.split("|"); //console.log()
+    [, size, difficulty] = first.split("."); console.log(size);console.log(difficulty);
+    let answerKeyA = answerKeyStr.split(",").map(Number);
+    let tunneledArrayA = tunneledArrayStr.split(",").map(Number);
+    let userProblemViewA = problemViewStr.split(",");
+    let playerAnswersA = playerAnswersStr.split(",")//.map(Number);  
+
+    function reshapeTo2DArray(arr, size){
+        let toReturn = Array.from({length: size}, () => Array(size).fill(0));
+        for (let x = 0; x < arr.length; x++){
+            let i = x / size;
+            let j = x % size;
+            toReturn[i][j] = arr[x];
+        }
+        return toReturn;
+    }
+
+    answerKey = reshapeTo2DArray(answerKeyA, size);
+    tunneledArray = reshapeTo2DArray(tunneledArrayA, size);
+    userProblemView = reshapeTo2DArray(userProblemViewA, size);
+    playerAnswers = reshapeTo2DArray(playerAnswersA, size);
+
+
+    console.log(tunneledArray); 
+    
+    console.log(playerAnswers); 
+
+    generateProblem();
+}
+
 const check = document.getElementById("Check");
 const hint = document.getElementById("hint");
 const colorCode = document.getElementById("colorCode");
 const newGame = document.getElementById("newGame");
+const saveGame = document.getElementById("saveGame");
+
+saveGame.addEventListener("click", function () {
+    const popUp = document.createElement("div");
+    const overall = document.getElementById("overall");
+    overall.appendChild(popUp);
+    popUp.id = "compilerPopup";
+
+    let gameCode = abstractor();
+    const textDiv = document.createElement("div");
+    textDiv.textContent = "Upload KenKen Code";
+    const kenCodeInput = document.createElement("input");
+    kenCodeInput.placeholder = gameCode;
+
+    const submitButton = document.createElement("button");
+    submitButton.textContent = "Decompile";
+    submitButton.addEventListener('click', () => {
+        decompileGame(kenCodeInput.value);
+    });
+
+    popUp.appendChild(textDiv);
+    popUp.appendChild(kenCodeInput);popUp.appendChild(submitButton); 
+    
+    const textDiv2 = document.createElement("div");
+    textDiv2.textContent = "This game's KenKen Code";
+    const generatedCode = document.createElement("input");
+    generatedCode.value = gameCode;
+
+    const copyButton = document.createElement("button");
+    copyButton.textContent = "Copy Code";
+
+    copyButton.addEventListener("click", () => {
+        navigator.clipboard.writeText(generatedCode.value)
+            .catch(err => {
+                console.error("Failed to copy code: ", err);
+            });
+    });
+
+    popUp.appendChild(textDiv2);
+    popUp.appendChild(generatedCode);popUp.appendChild(copyButton);
+
+    const closeButton = document.createElement("button");
+    closeButton.textContent = "Close";
+
+    closeButton.addEventListener("click", () => {
+        popUp.remove();
+    });
+
+    popUp.appendChild(closeButton);
+ 
+
+});
+
 
 newGame.addEventListener("click", function () {
 
@@ -211,14 +278,13 @@ hint.addEventListener("click", function () {
 });
 
 function abstractor(){
-    let first = "kenken." + size.toString() + "." + difficulty;
+    let first = "kenken." + size.toString() + "." + difficulty + "|";
     let answerKeyStr = answerKey.join(",");
     let tunneledArrayStr = tunneledArray.join(",");
     let problemViewStr = userProblemView.join(","); //can compiler handle ",,,,,,"?
     collectPlayerAnswers();
     let playerAnswersStr = playerAnswers.join(",");
     return first + `${answerKeyStr}|${tunneledArrayStr}|${problemViewStr}|${playerAnswersStr}`;
-
 }
 
 console.log(abstractor());
