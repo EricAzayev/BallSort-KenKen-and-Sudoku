@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ball Sort</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="ball-sort.css">
+
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#"><button id="customize">Customize Game</button></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+       
+      
+        <div class="collapse navbar-collapse d-flex justify-content-center" id="navbarSupportedContent">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <input class="form-control mr-sm-2" id="inp1" type="text" placeholder="different elements" aria-label="Different elements" value="3">
+            </li>
+            <li class="nav-item">
+              <input class="form-control mr-sm-2" id="inp2" type="text" placeholder="capacity" aria-label="Capacity" value="4">
+            </li>
+            <li class="nav-item">
+              <input class="form-control mr-sm-2" id="inp2" type="text" placeholder="empty bins" aria-label="Empty bins" value="1">
+            </li>
+          </ul>
+        </div>
+        <!-- Rounded switch -->
+        <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+        </label>
+    </nav>
+
+    <div id="overall">
+        <div id = "mainContainer">
+            <div id="SortGameContainer"></div> <!--All generation magic happens-->
+    
+    <script src="ball-sort.js"></script> 
+</body>
+</html>

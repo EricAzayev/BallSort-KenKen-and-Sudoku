@@ -25,11 +25,7 @@ let userProblemView = game[2]; //strings
 const toAppend = document.getElementById("KenKenContainer");
 let toColor = false;
 function generateProblem(){
-
-    //must erase old grid before generating new
     toAppend.innerHTML = "";
-
-
     for(let i = 0; i < size; i++){
         const a = document.createElement("div");
         a.className = "KenContainer" 
