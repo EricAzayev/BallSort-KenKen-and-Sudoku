@@ -156,4 +156,4 @@ class SortGame{
         }
     }
 }
-export default Solution;
+export default SortGame;

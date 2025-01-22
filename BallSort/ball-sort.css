@@ -25,6 +25,11 @@
     -webkit-transition: .4s;
     transition: .4s;
   }
+  #SortGameContainer{
+    margin: 40px;
+    padding: 10px;
+    height: 1000px;
+  }
   
   .slider:before {
     position: absolute;
